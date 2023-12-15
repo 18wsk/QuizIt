@@ -14,10 +14,6 @@ app.listen(port, () => {
     console.log(`Server listening on ${port}`);
 });
 
-const requestConfig = {
-    timeout: 90000, // Set the timeout to 90 seconds (adjust as needed)
-};
-
 app.post('/', async (req, res) => {
     const timeoutMilliseconds = 5000; // Set the timeout to 5 seconds (adjust as needed)
 
@@ -30,6 +26,7 @@ app.post('/', async (req, res) => {
         } catch (error) {
             console.error("Error:", error);
             reject(error);
+            res.status(500).json({ error: "Internal Server Error" });
         }
     });
 
