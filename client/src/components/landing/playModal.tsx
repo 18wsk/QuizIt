@@ -30,7 +30,7 @@ export const PlayModal = () => {
     const createQuiz = async () => {
         setIsLoading(true);
         try {
-            const response = await axios.post('https://quizit-v0.onrender.com:5000/generate-quiz', { quizTopic }, { timeout: 180000 });
+            const response = await axios.post('https://quizit-v0.onrender.com:5000/generate-quiz', { quizTopic });
             const formattedQuestions: Question[] = response.data.questions;
     
             if (response.status === 200) {

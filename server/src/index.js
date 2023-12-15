@@ -16,7 +16,7 @@ app.listen(port, () => {
 });
 
 app.get('/', () => {
-    console.log("HELLO WORLD!")
+    console.log("HELLO WORLD!");
 })
 
 app.post('/generate-quiz', async (req, res) => {
