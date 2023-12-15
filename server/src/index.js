@@ -3,7 +3,7 @@ import cors from 'cors';
 import { generateQuiz } from './openAI/index.js'
 
 const port = 5000;
-const host = "https://quizit-v0.onrender.com"
+// const host = "https://quizit-v0.onrender.com"
 
 const app = express();
 
@@ -11,8 +11,8 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // Add this line to parse JSON data
 
-app.listen(port, host, () => {
-    console.log(`Server listening on ${host}${port}`);
+app.listen(port, () => {
+    console.log(`Server listening on ${port}`);
 });
 
 app.post('/generate-quiz', async (req, res) => {
