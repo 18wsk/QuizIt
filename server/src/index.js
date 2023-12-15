@@ -14,7 +14,7 @@ app.listen(port, () => {
     console.log(`Server listening on ${port}`);
 });
 
-app.post('/', async (req, res) => {
+app.post('/generate-quiz', async (req, res) => {
     const timeoutMilliseconds = 5000; // Set the timeout to 5 seconds (adjust as needed)
 
     // Wrap the generateQuiz function in a promise
