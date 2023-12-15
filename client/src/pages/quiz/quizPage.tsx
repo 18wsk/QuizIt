@@ -7,7 +7,7 @@ import QuestionComponent from "../../components/questions";
 import { setCurrentAnswer, setCurrentQuestion, setQuestions } from "../../store/quizSlice";
 import clsx from "clsx";
 import { OptionsModal } from "../../components/landing/optionsModal";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const QuizPage = () => {
     const dispatch = useDispatch();
@@ -23,10 +23,16 @@ const QuizPage = () => {
     const currentAnswer = useSelector((state: RootState) => state.quiz.currentAnswer);
     const darkMode = useSelector((state: RootState) => state.quiz.darkMode);
 
+    const [isShowing, setIsShowing] = useState<boolean>(true);
+
 
     const handleNextQuestion = () => {
-        dispatch(setCurrentQuestion(currentQuestion+ 1));
-        dispatch(setCurrentAnswer(null));
+        setIsShowing(false);
+        setTimeout(() => {
+            setIsShowing(true);
+            dispatch(setCurrentQuestion(currentQuestion+ 1));
+            dispatch(setCurrentAnswer(null));
+        }, 300)
     }
 
     useEffect(() => {
@@ -51,7 +57,7 @@ const QuizPage = () => {
                     <div className="w-full h-[calc(100vh-66px-4rem)] flex flex-col items-center justify-center ">
                         <div 
                             className="w-[500px] h-[600px] rounded-lg p-2 shadow-white shadow-xl
-                            border-[1px] border-primary bg-opacity-30 backdrop-filter backdrop-blur-md"
+                            border-[1px] border-primary bg-opacity-30 backdrop-filter backdrop-blur-md overflow-hidden"
                         >
                             <h2 
                                 className={clsx(
@@ -66,7 +72,7 @@ const QuizPage = () => {
                                 </h3>
                             </div>
                             <div className="w-full h-[500px]">
-                                <QuestionComponent questions={questions.questions} currentQuestionIdx={currentQuestion} />
+                                <QuestionComponent questions={questions.questions} currentQuestionIdx={currentQuestion} isShowing={isShowing}/>
                             </div>
                             <div className="w-full h-fit flex items-center justify-center">
                                 {currentAnswer && 

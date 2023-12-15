@@ -6,23 +6,24 @@ import { Question } from "../../types/Question";
 
 const QuestionComponent = ({
     questions,
-    currentQuestionIdx
+    currentQuestionIdx,
+    isShowing
 }:{
     questions: Question[],
-    currentQuestionIdx: number
+    currentQuestionIdx: number,
+    isShowing: boolean
 }) => {
     const currentQuestion = questions[currentQuestionIdx];
-    console.log(currentQuestion)
     return (
         <> 
         { currentQuestionIdx <= 9 
-        ? (currentQuestion?.mc 
-            ? (
-            <MultipleChoiceQuestion question={currentQuestion} />
-            ) : (
-            <FillInTheBlankQuestion  question={currentQuestion} />
-            ))
-        : <GameOverComponent/>
+            ? (currentQuestion?.mc 
+                ? (
+                <MultipleChoiceQuestion question={currentQuestion} isShowing={isShowing}/>
+                ) : (
+                <FillInTheBlankQuestion  question={currentQuestion} isShowing={isShowing} />
+                ))
+            : <GameOverComponent/>
         }
         </>
     )

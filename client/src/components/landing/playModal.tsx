@@ -16,9 +16,20 @@ export const PlayModal = () => {
     const [quizTopic, setQuizTopic] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [failed, setFailed] = useState<boolean>(false);
+    const [text, setText] = useState<string>("Generating Your Quiz!");
     
     const quizId = useSelector((state: RootState) => state.quiz.id);
+    console.log(quizId);
 
+    setTimeout(() => {
+        if (text === "Generating Your Quiz!") {
+            setText("Some Quizes Take A While...")
+        } else {
+            setText("Generating Your Quiz!")
+        }
+    }, 3000)
+
+    
     function closeModal() {
         setIsOpen(false)
     }
@@ -28,9 +39,9 @@ export const PlayModal = () => {
     }
 
     const createQuiz = async () => {
-        setIsLoading(true);
+        setIsLoading(true); // https://quizit-v0.onrender.com/generate/quiz
         try {
-            const response = await axios.post('https://quizit-v0.onrender.com/generate-quiz', { quizTopic });
+            const response = await axios.post('https://localhost/generate/quiz', { quizTopic, quizId });
             const formattedQuestions: Question[] = response.data.questions;
     
             if (response.status === 200) {
@@ -108,7 +119,7 @@ export const PlayModal = () => {
                                         isLoading 
                                             ? 
                                             <div className="h-[300px] w-[400px] flex flex-col items-center justify-center gap-y-8">
-                                                <p className="text-2xl text-white font-libre pb-2 animate-pulse">Generating Your Quiz!</p>
+                                                <p className="text-xl text-white font-libre pb-2 animate-pulse">{text}</p>
                                                 <BarLoader
                                                     color="#B3D3C1"
                                                     height={8}
@@ -130,7 +141,7 @@ export const PlayModal = () => {
                                                                         text-white text-sm"
                                                             value={quizTopic}
                                                             maxLength={50}
-                                                            min={5}
+                                                            min={3}
                                                             onChange={(e) => setQuizTopic(e.target.value)}
                                                             onKeyDown={handleKeyPress}
                                                             />
@@ -138,10 +149,10 @@ export const PlayModal = () => {
                                                             {quizTopic.length}/50
                                                         </div>
                                                         <button
-                                                            disabled={!(quizTopic.length > 5)}
+                                                            disabled={!(quizTopic.length > 3)}
                                                             className={
                                                                 clsx("outline-none focus:outline-none py-2 px-4 rounded-full text-white border-2 border-transparent",
-                                                                    quizTopic.length > 5 ? 'bg-primary rounded-full hover:bg-transparent hover:border-primary hover:text-primary cursor-pointer' : 'pointer-events-none',
+                                                                    quizTopic.length > 3 ? 'bg-primary rounded-full hover:bg-transparent hover:border-primary hover:text-primary cursor-pointer' : 'pointer-events-none',
                                                                 )}
                                                             onClick={() => createQuiz()}
                                                                 >
