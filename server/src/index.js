@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // Add this line to parse JSON data
 
-app.listen(port, hostname, () => {
+app.listen(port, () => {
     console.log(`Server listening on ${port}`);
 });
 
