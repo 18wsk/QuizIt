@@ -31,25 +31,21 @@ export const PlayModal = () => {
         setIsLoading(true);
         try {
             const response = await axios.post('https://quizit-v0.onrender.com:5000/generate-quiz', { quizTopic }, { timeout: 180000 });
-            const formattedQuestions: Question[] = response.data.questions
+            const formattedQuestions: Question[] = response.data.questions;
+    
             if (response.status === 200) {
-                // Success! Dump to localStorage then retrieve on refresh
-                // TODO: FIX
                 localStorage.setItem("quiz", JSON.stringify(formattedQuestions));
-                window.location.href=`/quiz/${quizId}`
+                window.location.href = `/quiz/${quizId}`;
             } else {
-                // Handle other response statuses if needed
                 console.error('Unexpected response status:', response.status);
-                // window.location.href = "/"
                 setFailed(true);
             }
         } catch (error) {
-            // Handle errors from the Axios request or other errors
             console.error('Error creating quiz:', error);
-            // window.location.href = "/"
             setFailed(true);
         }
     };
+    
 
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
