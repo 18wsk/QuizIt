@@ -30,7 +30,7 @@ export const PlayModal = () => {
     const createQuiz = async () => {
         setIsLoading(true);
         try {
-            const response = await axios.post('http://127.0.0.1:3000/', { quizTopic });
+            const response = await axios.post('https://quizit-v0.onrender.com:5000/', { quizTopic });
             const formattedQuestions: Question[] = response.data.questions
             if (response.status === 200) {
                 // Success! Dump to localStorage then retrieve on refresh
