@@ -8,13 +8,14 @@ import { setCurrentAnswer, setCurrentQuestion, setQuestions } from "../../store/
 import clsx from "clsx";
 import { OptionsModal } from "../../components/landing/optionsModal";
 import { useEffect } from "react";
+import { Question } from "../../types/Question";
 
 const QuizPage = () => {
     const dispatch = useDispatch();
     // HANDLE GETTING THE STATE FROM LOCALSTORAGE
     // TODO: FIX --> USE DB
     const persisted = localStorage.getItem("quiz") ?? "";
-    const questions = JSON.parse(persisted);
+    const questions: Question[]= JSON.parse(persisted);
     dispatch(setQuestions(questions));
 
 
