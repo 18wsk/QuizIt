@@ -3,7 +3,7 @@ import cors from 'cors';
 import { generateQuiz } from './openAI/index.js'
 
 const port = 3000;
-const hostname = '127.0.0.1';
+const hostname = 'https://quizit-v0.netlify.app/';
 
 const app = express();
 
