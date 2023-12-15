@@ -1,7 +1,7 @@
 {
   "name": "quizit",
   "version": "1.0.0",
-  "description": "Your project description",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "npm-run-all --parallel start-client start-server",
@@ -16,6 +16,6 @@
     "vite": "^5.0.8"
   },
   "keywords": [],
-  "author": "Your Name",
+  "author": "Will Kennedy",
   "license": "MIT"
 }
