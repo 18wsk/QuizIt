@@ -8,15 +8,14 @@ import { setCurrentAnswer, setCurrentQuestion, setQuestions } from "../../store/
 import clsx from "clsx";
 import { OptionsModal } from "../../components/landing/optionsModal";
 import { useEffect } from "react";
-import { Question } from "../../types/Question";
 
 const QuizPage = () => {
     const dispatch = useDispatch();
     // HANDLE GETTING THE STATE FROM LOCALSTORAGE
     // TODO: FIX --> USE DB
     const persisted = localStorage.getItem("quiz") ?? "";
-    const questions: Question[]= JSON.parse(persisted);
-    dispatch(setQuestions(questions));
+    const questions = JSON.parse(persisted);
+    dispatch(setQuestions(questions.questions));
 
 
     const currentQuestion = useSelector((state: RootState) => state.quiz.currentQuestion);
@@ -67,7 +66,7 @@ const QuizPage = () => {
                                 </h3>
                             </div>
                             <div className="w-full h-[500px]">
-                                <QuestionComponent questions={questions} currentQuestionIdx={currentQuestion} />
+                                <QuestionComponent questions={questions.questions} currentQuestionIdx={currentQuestion} />
                             </div>
                             <div className="w-full h-fit flex items-center justify-center">
                                 {currentAnswer && 

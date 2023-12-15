@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 export const FillInTheBlankQuestion = ({ question }: { question: Question }) =>{
     const correctAnswer = question.answer
+    console.log(question.answer)
 
     const [inputVal, setInputVal] = useState<string>("");
     const [answerSubmitted, setAnswerSubmitted] = useState<boolean>(false)
@@ -24,8 +25,6 @@ export const FillInTheBlankQuestion = ({ question }: { question: Question }) =>{
             setInputVal("")
         }
     }
-
-    console.log(correctAnswer, inputVal)
 
     return (
         <AnimatePresence initial={false}>

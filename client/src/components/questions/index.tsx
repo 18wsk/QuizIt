@@ -12,6 +12,7 @@ const QuestionComponent = ({
     currentQuestionIdx: number
 }) => {
     const currentQuestion = questions[currentQuestionIdx];
+    console.log(currentQuestion)
     return (
         <> 
         { currentQuestionIdx <= 9 
