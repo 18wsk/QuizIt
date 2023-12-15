@@ -2,8 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { generateQuiz } from './openAI/index.js'
 
-const port = 3000;
-const hostname = 'https://quizit-v0.netlify.app/';
+const port = 5000;
 
 const app = express();
 
@@ -12,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // Add this line to parse JSON data
 
 app.listen(port, hostname, () => {
-    console.log(`Server listening at ${hostname}:${port}`);
+    console.log(`Server listening on ${port}`);
 });
 
 app.post('/', async (req, res) => {
