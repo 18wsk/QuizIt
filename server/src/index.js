@@ -14,10 +14,6 @@ app.listen(port, () => {
     console.log(`Server listening on ${port}`);
 });
 
-app.get('/', () => {
-    console.log("HELLO WORLD!");
-})
-
 app.post('/generate-quiz', async (req, res) => {
     console.log("Generating Quiz!");
     try {
