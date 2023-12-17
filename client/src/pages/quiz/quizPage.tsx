@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import QuestionComponent from "../../components/questions";
@@ -8,22 +8,23 @@ import { setCurrentAnswer, setCurrentQuestion, setQuestions } from "../../store/
 import clsx from "clsx";
 import { OptionsModal } from "../../components/landing/optionsModal";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { BarLoader } from "react-spinners";
 
 const QuizPage = () => {
     const dispatch = useDispatch();
-    // HANDLE GETTING THE STATE FROM LOCALSTORAGE
-    // TODO: FIX --> USE DB
-    const persisted = localStorage.getItem("quiz") ?? "";
-    const questions = JSON.parse(persisted);
-    dispatch(setQuestions(questions.questions));
-
 
     const currentQuestion = useSelector((state: RootState) => state.quiz.currentQuestion);
     const currentUser = useSelector((state: RootState) => state.quiz.currentUser);
     const currentAnswer = useSelector((state: RootState) => state.quiz.currentAnswer);
     const darkMode = useSelector((state: RootState) => state.quiz.darkMode);
+    const questions = useSelector((state: RootState) => state.quiz.questions);
+    
+    const quizId = useParams();
 
     const [isShowing, setIsShowing] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [failed, setFailed] = useState<boolean>(false);
 
 
     const handleNextQuestion = () => {
@@ -32,13 +33,53 @@ const QuizPage = () => {
             setIsShowing(true);
             dispatch(setCurrentQuestion(currentQuestion+ 1));
             dispatch(setCurrentAnswer(null));
-        }, 300)
+        }, 400)
     }
 
     useEffect(() => {
         // Dispatch your action here
         dispatch(setCurrentAnswer(null));
       }, [dispatch]); // Empty dependency array means this effect runs once on mount
+
+    useEffect(() => {
+        const getQuiz = async () => {
+            setIsLoading(true);
+            try {
+                const response = await axios.get(`http://localhost:5000/get-quiz?quizId=${quizId.quizId}`);
+                dispatch(setQuestions(response.data.quiz.questions));
+            } catch (error) {
+                console.error('Error fetching quiz:', error);
+                setFailed(true);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+    
+        getQuiz();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [quizId]); // Add quizId to the dependency array if it's used inside the useEffect
+
+
+    if (isLoading) {
+        return (
+            <div className={`${darkMode ? "bg-dark-primary" : "bg-gradient-to-r from-secondary to-primary"}  w-screen h-screen flex flex-col items-center 
+            justify-center`}>
+                <div className="h-[300px] w-[400px] flex flex-col items-center justify-center gap-y-8">
+                    <BarLoader
+                        color="#B3D3C1"
+                        height={8}
+                        loading={isLoading}
+                        width={200}
+                    />
+                </div>
+            </div>
+        )
+    }
+
+    if (failed) {
+        window.location.href = "/";
+    }
+
 
     return (
         <div className={`${darkMode ? "bg-dark-primary" : "bg-gradient-to-r from-secondary to-primary"}  w-screen h-screen flex flex-col items-center 
@@ -72,7 +113,7 @@ const QuizPage = () => {
                                 </h3>
                             </div>
                             <div className="w-full h-[500px]">
-                                <QuestionComponent questions={questions.questions} currentQuestionIdx={currentQuestion} isShowing={isShowing}/>
+                                {questions.length > 0 && <QuestionComponent questions={questions} currentQuestionIdx={currentQuestion} isShowing={isShowing}/>}
                             </div>
                             <div className="w-full h-fit flex items-center justify-center">
                                 {currentAnswer && 

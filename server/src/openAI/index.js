@@ -34,12 +34,11 @@ export const generateQuiz = async (quizTopic) => {
         const lastMessageForRun = messages.data.filter((message) => message.run_id === run.id && message.role === "assistant").pop();
         // log status in terminal and return value
         if (lastMessageForRun) {
-            console.log("!!! DONE !!!")
+            console.log("!!! DONE !!!");
             return lastMessageForRun.content[0].text.value
         } else {
             return { questions: [] }
         }
-
     } catch(err) {
         console.log("ERROR: ", err)
         return { 'questions': [] }

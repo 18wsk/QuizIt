@@ -17,55 +17,42 @@ app.listen(port, () => {
     console.log(`Server listening on ${port}`);
 });
 
-app.post('/generate/quiz', async (req, res) => {
-    console.log("Generating Quiz!");
+
+// API ROUTES 
+app.post('/generate-quiz', async (req, res) => {
+    console.log("Generating Quiz!", req.body);
+    const questions = await generateQuiz(req.body.quizTopic);
+    const formattedQuestions = JSON.parse(questions);
+    // // store info in db
+    const newQuiz = new Quiz({
+        id: req.body.quizId,
+        topic: req.body.quizTopic,
+        questions: formattedQuestions.questions
+    });
     try {
-        const questions = await generateQuiz(req.body.quizTopic);
-        const formattedQuestions = JSON.parse(questions);
-        
-        // store info in db
-        const newQuiz = new Quiz({
-            id: req.body.id,
-            users: [],
-            questions: formattedQuestions,
-            currentUser: null,
-            currentQuestion: 0,
-            currentAnswer: null,
-            darkmode: false
-        });
-        
-        newQuiz.save((err, savedQuiz) => {
-            if (err) {
-                console.error('Error saving quiz:', err);
-                res.status(500).json({ error: "Internal Server Error" });
-            } else {
-                console.log('Quiz saved successfully:', savedQuiz);
-                res.status(200).json({ questions: formattedQuestions });
-            }
-        });
+        const savedQuiz = await newQuiz.save();
+        console.log('!!!!!!! Quiz saved successfully !!!!!!!!!');
+        res.status(200).json({ questions: savedQuiz.questions });
     } catch (error) {
         console.error("Error:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
-
-app.get('/get/quiz', async (req, res) => {
-    console.log("Generating Quiz!");
+app.get('/get-quiz', async (req, res) => {
+    console.log("Finding Quiz!");
     try {
-        const quizIdToFind = 'yourQuizId'; // Replace with the actual ID you want to find
-        // Find a quiz by ID
-        Quiz.findById(quizIdToFind, (err, quiz) => {
-            if (err) {
-                console.error('Error finding quiz:', err);
-                res.status(500).json({ error: "CANNOT FIND QUIZ" });
-            } else if (quiz) {
-                console.log('Found Quiz:', quiz);
-            } else {
-                console.log('Quiz not found');
-                res.status(500).json({ error: "QUIZ NOT FOUND" });
-            }
-        });
+        const quizIdToFind = req.query.quizId; 
+        console.log(quizIdToFind)
+        // Find a quiz by ID using promises
+        const quiz = await Quiz.findOne({ id: quizIdToFind });
+        if (quiz) {
+            console.log('Found Quiz:', quiz);
+            res.status(200).json({ quiz });
+        } else {
+            console.log('Quiz not found');
+            res.status(404).json({ error: "QUIZ NOT FOUND" });
+        }
     } catch (error) {
         console.error("Error:", error);
         res.status(500).json({ error: "CANNOT CONNECT" });

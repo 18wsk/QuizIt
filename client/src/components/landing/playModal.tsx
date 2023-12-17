@@ -19,7 +19,6 @@ export const PlayModal = () => {
     const [text, setText] = useState<string>("Generating Your Quiz!");
     
     const quizId = useSelector((state: RootState) => state.quiz.id);
-    console.log(quizId);
 
     setTimeout(() => {
         if (text === "Generating Your Quiz!") {
@@ -41,7 +40,9 @@ export const PlayModal = () => {
     const createQuiz = async () => {
         setIsLoading(true); // https://quizit-v0.onrender.com/generate/quiz
         try {
-            const response = await axios.post('https://localhost/generate/quiz', { quizTopic, quizId });
+            const response = await axios.post('http://localhost:5000/generate-quiz', { quizTopic, quizId });
+
+            // const response = await axios.post('ttps://quizit-v0.onrender.com/generate-quiz', { quizTopic, quizId });
             const formattedQuestions: Question[] = response.data.questions;
     
             if (response.status === 200) {

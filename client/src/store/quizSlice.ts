@@ -46,7 +46,7 @@ export const QuizSlice = createSlice({
         },
         setDarkMode: (state, { payload }: { payload: boolean }) => {
             state.darkMode = payload;
-        }
+        },
     }
 })
 
