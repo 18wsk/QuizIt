@@ -97,7 +97,7 @@ const QuizPage = () => {
                     </div>
                     <div className="w-full h-[calc(100vh-66px-4rem)] flex flex-col items-center justify-center ">
                         <div 
-                            className="w-[500px] h-[600px] rounded-lg p-2 shadow-white shadow-xl
+                            className="xs:w-[350px] md:w-[500px] h-[600px] rounded-lg p-2 shadow-white shadow-xl
                             border-[1px] border-primary bg-opacity-30 backdrop-filter backdrop-blur-md overflow-hidden"
                         >
                             <h2 
@@ -107,7 +107,6 @@ const QuizPage = () => {
                                 SCORE: {currentUser?.currentScore}
                             </h2>
                             <div className="w-full flex flex-row items-center justify-end gap-x-4">
-                            
                                 <h3 className="font-libre text-white/90 underline underline-offset-4 text-sm text-end p-2 decoration-secondary">
                                     {(currentQuestion+1) < 10 ? currentQuestion+1 : 10} of 10
                                 </h3>

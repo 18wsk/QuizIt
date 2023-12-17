@@ -21,15 +21,15 @@ app.listen(port, () => {
 // API ROUTES 
 app.post('/generate-quiz', async (req, res) => {
     console.log("Generating Quiz!", req.body);
-    const questions = await generateQuiz(req.body.quizTopic);
-    const formattedQuestions = JSON.parse(questions);
-    // // store info in db
-    const newQuiz = new Quiz({
-        id: req.body.quizId,
-        topic: req.body.quizTopic,
-        questions: formattedQuestions.questions
-    });
     try {
+        const questions = await generateQuiz(req.body.quizTopic);
+        const formattedQuestions = JSON.parse(questions);
+        // // store info in db
+        const newQuiz = new Quiz({
+            id: req.body.quizId,
+            topic: req.body.quizTopic,
+            questions: formattedQuestions.questions
+        });
         const savedQuiz = await newQuiz.save();
         console.log('!!!!!!! Quiz saved successfully !!!!!!!!!');
         res.status(200).json({ questions: savedQuiz.questions });
@@ -43,14 +43,11 @@ app.get('/get-quiz', async (req, res) => {
     console.log("Finding Quiz!");
     try {
         const quizIdToFind = req.query.quizId; 
-        console.log(quizIdToFind)
         // Find a quiz by ID using promises
         const quiz = await Quiz.findOne({ id: quizIdToFind });
         if (quiz) {
-            console.log('Found Quiz:', quiz);
             res.status(200).json({ quiz });
         } else {
-            console.log('Quiz not found');
             res.status(404).json({ error: "QUIZ NOT FOUND" });
         }
     } catch (error) {

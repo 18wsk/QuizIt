@@ -41,10 +41,8 @@ export const PlayModal = () => {
         setIsLoading(true); // https://quizit-v0.onrender.com/generate/quiz
         try {
             const response = await axios.post('http://localhost:5000/generate-quiz', { quizTopic, quizId });
-
             // const response = await axios.post('ttps://quizit-v0.onrender.com/generate-quiz', { quizTopic, quizId });
             const formattedQuestions: Question[] = response.data.questions;
-    
             if (response.status === 200) {
                 localStorage.setItem("quiz", JSON.stringify(formattedQuestions));
                 window.location.href = `/quiz/${quizId}`;
@@ -56,6 +54,7 @@ export const PlayModal = () => {
             console.error('Error creating quiz:', error);
             setFailed(true);
         }
+        setIsLoading(false);
     };
     
 
@@ -114,13 +113,13 @@ export const PlayModal = () => {
                                         <MdOutlineClose />
                                     </button>
                                 </Dialog.Title>
-                                <div className="w-full h-full flex flex-col ">
+                                <div className="w-full h-full flex flex-col items-center justify-center">
                                     
                                     {
                                         isLoading 
                                             ? 
-                                            <div className="h-[300px] w-[400px] flex flex-col items-center justify-center gap-y-8">
-                                                <p className="text-xl text-white font-libre pb-2 animate-pulse">{text}</p>
+                                            <div className="h-[300px] w-[300px] flex flex-col items-center justify-center gap-y-8">
+                                                <p className="xs:text-lg lg:text-xl text-center text-white font-libre pb-2 animate-pulse">{text}</p>
                                                 <BarLoader
                                                     color="#B3D3C1"
                                                     height={8}
@@ -129,12 +128,12 @@ export const PlayModal = () => {
                                                 />
                                             </div>
                                             :
-                                            <>
-                                                <div className="w-[400px] h-[200px] flex flex-col items-center justify-center">
-                                                    <Spline scene="https://prod.spline.design/Bgz5xbVnZzyOfTc9/scene.splinecode" className='className="w-[400px] h-[160px] flex items-center justify-center' />
+                                            <div className="w-full h-full flex flex-col items-center justify-center ">
+                                                <div className="w-[300px] h-[200px] flex flex-col items-center justify-center">
+                                                    <Spline scene="https://prod.spline.design/Bgz5xbVnZzyOfTc9/scene.splinecode" className='className="w-[300px] h-[160px] flex items-center justify-center' />
                                                 </div>
                                                 <div className="w-full h-fit py-2 flex flex-col items-center justify-center gap-y-4">
-                                                    { failed ? <p className="text-md text-white font-libre bg-secondary rounded-lg text-center p-2">ERROR: Please Try Again.</p> : <p className="text-md text-white font-libre rounded-lg text-center p-2">Enter A Topic and Start Your Quiz</p>}
+                                                    { failed ? <p className="text-md text-white font-libre bg-red-300 rounded-lg text-center p-2">ERROR: Please Try Again.</p> : <p className="text-md text-white font-libre rounded-lg text-center p-2">Enter A Topic and Start Your Quiz</p>}
                                                     <div className="w-full bg-transparent/10 rounded-full flex flex-row focus:border-primary border-2 border-transparent">
                                                         <input 
                                                             placeholder='Quiz Topic...' 
@@ -150,7 +149,7 @@ export const PlayModal = () => {
                                                             {quizTopic.length}/50
                                                         </div>
                                                         <button
-                                                            disabled={!(quizTopic.length > 3)}
+                                                            disabled={(quizTopic.length <= 3)}
                                                             className={
                                                                 clsx("outline-none focus:outline-none py-2 px-4 rounded-full text-white border-2 border-transparent",
                                                                     quizTopic.length > 3 ? 'bg-primary rounded-full hover:bg-transparent hover:border-primary hover:text-primary cursor-pointer' : 'pointer-events-none',
@@ -161,7 +160,7 @@ export const PlayModal = () => {
                                                         </button>
                                                     </div>
                                                 </div>
-                                            </>
+                                            </div>
                                     }
                                 </div>
                             </Dialog.Panel>

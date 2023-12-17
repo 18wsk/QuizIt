@@ -30,7 +30,15 @@ export default {
         '3xl': ['40px', '48px'],
         '4xl': ['48px', '56px'],
         '5xl': ['50px', '52px'],
-      }
+      },
+      screens: {
+        'xs': '0px',
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
+      },
     },
   },
   plugins: [],

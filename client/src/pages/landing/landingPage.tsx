@@ -21,7 +21,7 @@ const LandingPage = () => {
     return (
         <div className={`${darkMode ? "bg-dark-primary" : "bg-gradient-to-r from-secondary to-primary"} w-screen h-screen flex flex-col items-center justify-center`}>
             <motion.div
-                className="w-1/2 h-full flex flex-col items-center justify-center"
+                className="xs:w-full lg:w-1/2 h-full flex flex-col items-center justify-center"
                 initial={{ opacity: 0, y: -40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
@@ -30,7 +30,7 @@ const LandingPage = () => {
                     <img src={logo} className="h-[100px] w-[100px]" alt="Logo" />
                 </div>
                 <h1 className="text-5xl font-extrbold font-libre h-[60px] text-white">QuizIt</h1>
-                <h2 className="text-xl font-roboto text-center py-2 text-white">Create Compete Connect with AI-Crafted Challenges!</h2>
+                <h2 className="xs:text-md md:text-xl font-roboto text-center py-2 text-white xs:w-[350px] lg:w-[575px]">Create Compete Connect with AI-Crafted Challenges!</h2>
                 <div className="w-full h-fit flex flex-cols-2 items-center justify-center py-8 gap-x-4">
                     <PlayModal />
                     <OptionsModal nav={false}/>

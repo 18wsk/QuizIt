@@ -40,8 +40,8 @@ export const generateQuiz = async (quizTopic) => {
             return { questions: [] }
         }
     } catch(err) {
+        throw err;
         console.log("ERROR: ", err)
-        return { 'questions': [] }
     }
 
 }
