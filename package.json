@@ -18,6 +18,7 @@
   "author": "Will Kennedy",
   "license": "MIT",
   "dependencies": {
-    "@splinetool/runtime": "^0.9.523"
+    "@splinetool/runtime": "^0.9.523",
+    "mongoose": "^8.0.3"
   }
 }
