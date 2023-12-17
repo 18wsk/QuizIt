@@ -38,10 +38,10 @@ export const PlayModal = () => {
     }
 
     const createQuiz = async () => {
-        setIsLoading(true); // https://quizit-v0.onrender.com/generate/quiz
+        setIsLoading(true);
         try {
-            const response = await axios.post('http://localhost:5000/generate-quiz', { quizTopic, quizId });
-            // const response = await axios.post('ttps://quizit-v0.onrender.com/generate-quiz', { quizTopic, quizId });
+            // const response = await axios.post('http://localhost:5000/generate-quiz', { quizTopic, quizId });
+            const response = await axios.post('ttps://quizit-v0.onrender.com/generate-quiz', { quizTopic, quizId });
             const formattedQuestions: Question[] = response.data.questions;
             if (response.status === 200) {
                 localStorage.setItem("quiz", JSON.stringify(formattedQuestions));
