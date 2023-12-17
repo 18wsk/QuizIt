@@ -27,6 +27,6 @@ const QuizSchema = new mongoose.Schema({
     questions: [QuestionSchema],
 });
 // CREATE MONGOOSE MODEL
-const Question = mongoose.model('Question', QuestionSchema);
-const User = mongoose.model('User', UserSchema);
+// const Question = mongoose.model('Question', QuestionSchema);
+// const User = mongoose.model('User', UserSchema);
 export const Quiz = mongoose.model('Quiz', QuizSchema);
