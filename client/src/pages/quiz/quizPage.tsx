@@ -49,7 +49,6 @@ const QuizPage = () => {
                 const response = await axios.get(`https://quizit-v0.onrender.com/get-quiz?quizId=${quizId.quizId}`);
                 dispatch(setQuestions(response.data.quiz.questions));
             } catch (error) {
-                console.error('Error fetching quiz:', error);
                 setFailed(true);
             } finally {
                 setIsLoading(false);

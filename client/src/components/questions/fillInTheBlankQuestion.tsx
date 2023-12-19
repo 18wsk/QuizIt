@@ -67,7 +67,7 @@ export const FillInTheBlankQuestion = ({ question, isShowing } : { question: Que
                                             !answerSubmitted && inputVal.length > 0 && 'bg-secondary rounded-full hover:bg-transparent  hover:border-secondary hover:text-secondary'
                                         )}
                                     onClick={() => handleSubmit()}
-                                    disabled={answerSubmitted}
+                                    disabled={answerSubmitted || inputVal.length <= 2}
                                         >
                                         <FaArrowRight/>
                                 </button>

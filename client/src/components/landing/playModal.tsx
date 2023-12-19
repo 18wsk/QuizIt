@@ -9,13 +9,14 @@ import axios from 'axios';
 import { Question } from '../../types/Question';
 import { RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
-import { BarLoader } from 'react-spinners'
+import { BarLoader } from 'react-spinners';
 
 export const PlayModal = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [quizTopic, setQuizTopic] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [failed, setFailed] = useState<boolean>(false);
+    const [errorString, setErrorString] = useState<string | null>(null);
     const [text, setText] = useState<string>("Generating Your Quiz!");
     
     const quizId = useSelector((state: RootState) => state.quiz.id);
@@ -47,17 +48,15 @@ export const PlayModal = () => {
                 localStorage.setItem("quiz", JSON.stringify(formattedQuestions));
                 window.location.href = `/quiz/${quizId}`;
             } else {
-                console.error('Unexpected response status:', response.status);
                 setFailed(true);
             }
-        } catch (error) {
-            console.error('Error creating quiz:', error);
+        } catch (error: any) {
+            setErrorString(error.response.data.error);
             setFailed(true);
         }
         setIsLoading(false);
     };
     
-
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             createQuiz()
@@ -130,10 +129,13 @@ export const PlayModal = () => {
                                             :
                                             <div className="w-full h-full flex flex-col items-center justify-center ">
                                                 <div className="w-[300px] h-[200px] flex flex-col items-center justify-center">
-                                                    <Spline scene="https://prod.spline.design/Bgz5xbVnZzyOfTc9/scene.splinecode" className='className="w-[300px] h-[160px] flex items-center justify-center' />
+                                                    <Spline 
+                                                        scene="https://prod.spline.design/Bgz5xbVnZzyOfTc9/scene.splinecode" 
+                                                        className='className="w-[300px] h-[160px] flex items-center justify-center' 
+                                                    />
                                                 </div>
                                                 <div className="w-full h-fit py-2 flex flex-col items-center justify-center gap-y-4">
-                                                    { failed ? <p className="text-md text-white font-libre bg-red-300 rounded-lg text-center p-2">ERROR: Please Try Again.</p> : <p className="text-md text-white font-libre rounded-lg text-center p-2">Enter A Topic and Start Your Quiz</p>}
+                                                    { failed ? <p className="text-md text-white font-libre bg-red-300 rounded-lg text-center p-2">{errorString ? errorString : "GG"}</p> : <p className="text-md text-white font-libre rounded-lg text-center p-2">Enter A Topic and Start Your Quiz</p>}
                                                     <div className="w-full bg-transparent/10 rounded-full flex flex-row focus:border-primary border-2 border-transparent">
                                                         <input 
                                                             placeholder='Quiz Topic...' 
@@ -142,7 +144,10 @@ export const PlayModal = () => {
                                                             value={quizTopic}
                                                             maxLength={50}
                                                             min={3}
-                                                            onChange={(e) => setQuizTopic(e.target.value)}
+                                                            onChange={(e) => {
+                                                                setQuizTopic(e.target.value);
+                                                                setFailed(false);
+                                                            }}
                                                             onKeyDown={handleKeyPress}
                                                             />
                                                         <div className="w-fit h-full flex flex-col items-center justify-cente text-white text-2xs">

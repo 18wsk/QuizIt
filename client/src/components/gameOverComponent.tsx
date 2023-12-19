@@ -47,7 +47,8 @@ const GameOverComponent = () => {
       <h1 className="w-full text-5xl font-roboto text-white text-center">GAME OVER.</h1>
       <div className="w-[400px] h-[200px] flex items-center justify-center">
           <Spline 
-            scene="https://prod.spline.design/Bgz5xbVnZzyOfTc9/scene.splinecode" className='className="w-[400px] h-[160px] flex items-center justify-center'
+            scene="https://prod.spline.design/Bgz5xbVnZzyOfTc9/scene.splinecode" 
+            className='className="w-[400px] h-[160px] flex items-center justify-center'
           />
       </div>
       <h2 className="w-fit text-2xl text-center font-libre text-white p-2  rounded-lg bg-primary/10"
