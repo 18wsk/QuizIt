@@ -37,17 +37,18 @@ export const generateQuiz = async (quizTopic) => {
             console.log("!!! GENERATING RESPONSE !!!");
             const questions = JSON.parse(assistantResponse.content[0].text.value).questions
             if (questions.length < 10) {
-                throw new Error("There was an error in the prompt input.");
+                console.log("❌ FAILED: PROMPT ERROR ❌");
+                throw new Error("PROMPT ERR");
             } else {
                 console.log("✔️ DONE ✔️");
                 return questions
             }
         } else {
-            console.log("❌ FAILED: PROMPT ERROR ❌");
-            throw new Error("There was an error in the prompt input.");
+            console.log("❌ FAILED: ASSISTANT RESPONSE ERROR ❌");
+            throw new Error("ASSISTANT ERR");
         }
     } catch (err) {
         console.log("❌ FAILED: OpenAI ERROR ❌");
-        throw err;
+        throw new Error("OpenAI ERR");
     }
 };

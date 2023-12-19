@@ -46,7 +46,9 @@ app.post('/generate-quiz', async (req, res) => {
         }
     } catch (error) {
         console.error("❌ Error:", error);
-        if (error.message === "There was an error in the prompt input.") res.status(400).json({ error: "Please Try Another Topic" });
+        if (error.message === "PROMPT ERR") res.status(400).json({ error: "Please Try Another Topic" });
+        else if (error.message === "ASSISTANT ERR") res.status(500).json({ error: "Please Try Again" });
+        else if (error.message === "OpenAI ERR") res.status(500).json({ error: "Please Try Again." });
         else res.status(400).json({ error: error.message });
     }
 });
